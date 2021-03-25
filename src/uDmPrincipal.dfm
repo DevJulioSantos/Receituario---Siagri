@@ -4,19 +4,17 @@ object dmPrincipal: TdmPrincipal
   Width = 1110
   object FDConnection: TFDConnection
     Params.Strings = (
-      'Database=D:\Delphi\Projects\Receituario\database\RECEITUARIO.FDB'
       'User_Name=sysdba'
       'Password=masterkey'
       'Server=localhost'
       'Port=3050'
       'DriverID=FB')
-    Connected = True
     LoginPrompt = False
     Left = 1040
     Top = 24
   end
   object FDPhysFBDriverLink: TFDPhysFBDriverLink
-    VendorLib = 'C:\Users\julio\Downloads\fbclient.dll'
+    VendorLib = 'D:\Delphi\Projects\Receituario---Siagri\utils\fbclient.dll'
     Left = 1040
     Top = 80
   end
@@ -44,11 +42,6 @@ object dmPrincipal: TdmPrincipal
       Required = True
       Size = 11
     end
-  end
-  object FDGUIxWaitCursor: TFDGUIxWaitCursor
-    Provider = 'Forms'
-    Left = 1040
-    Top = 136
   end
   object dsClientes: TDataSource
     DataSet = qryClientes

@@ -17,7 +17,6 @@ type
     FDConnection: TFDConnection;
     FDPhysFBDriverLink: TFDPhysFBDriverLink;
     qryClientes: TFDQuery;
-    FDGUIxWaitCursor: TFDGUIxWaitCursor;
     dsClientes: TDataSource;
     qryClientesID_CLIENTE: TIntegerField;
     qryClientesNOME: TStringField;

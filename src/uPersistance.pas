@@ -174,7 +174,7 @@ vQry := TFDQuery.Create(nil);
       vQry.SQL.Clear;
       vQry.Close;
 
-      vQry.SQL.Add('DELETE FROM CLIENTES WHERE ID_PRODUTO = :ID_PRODUTO;');
+      vQry.SQL.Add('DELETE FROM PRODUTOS WHERE ID_PRODUTO = :ID_PRODUTO;');
 
       vQry.ParamByName('ID_PRODUTO').AsInteger := pIdPrduto;
       vQry.ExecSQL;

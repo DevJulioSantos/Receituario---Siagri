@@ -57,18 +57,22 @@ end;
 
 procedure TfrmPrincipal.FormShow(Sender: TObject);
 var
-  vCaminho: TFileName;
+  vCaminhoBD: TFileName; vCaminhoDLL: String;
 begin
   try
     if FileExists(ExtractFilePath(ParamStr(0)) + 'Config.ini') then
     begin
       with TIniFile.Create(ExtractFilePath(ParamStr(0)) + 'Config.ini') do
       begin
-         vCaminho := ReadString('RECEITUARIO', 'CAMINHOBD', '')
+         vCaminhoBD  := ReadString('RECEITUARIO', 'CAMINHOBD', '');
+         vCaminhoDLL := ReadString('RECEITUARIO', 'CAMINHODLL', '');
       end;
 
       dmPrincipal.FDConnection.Params.Database := EmptyStr;
-      dmPrincipal.FDConnection.Params.Database := vCaminho;
+      dmPrincipal.FDConnection.Params.Database := vCaminhoBD;
+
+      dmPrincipal.FDPhysFBDriverLink.VendorLib := EmptyStr;
+      dmPrincipal.FDPhysFBDriverLink.VendorLib := vCaminhoDLL;
     end
     else
       ShowMessage('Aqeuivo "Config.ini" não encontrado!');
