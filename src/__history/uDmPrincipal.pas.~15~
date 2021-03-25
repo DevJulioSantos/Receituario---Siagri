@@ -1,0 +1,62 @@
+unit uDmPrincipal;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, Data.DB, Data.FMTBcd,
+  Data.SqlExpr, Datasnap.Provider, Datasnap.DBClient,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf,
+  FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
+  FireDAC.Phys, FireDAC.Phys.FB, FireDAC.Phys.FBDef, FireDAC.VCLUI.Wait,
+  FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt,
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, FireDAC.Phys.IBBase,
+  FireDAC.Comp.UI, inifiles;
+
+type
+  TdmPrincipal = class(TDataModule)
+    FDConnection: TFDConnection;
+    FDPhysFBDriverLink: TFDPhysFBDriverLink;
+    qryClientes: TFDQuery;
+    FDGUIxWaitCursor: TFDGUIxWaitCursor;
+    dsClientes: TDataSource;
+    qryClientesID_CLIENTE: TIntegerField;
+    qryClientesNOME: TStringField;
+    qryClientesCPF: TStringField;
+    qryProdutos: TFDQuery;
+    dsProdutos: TDataSource;
+    qryTenicosAgricola: TFDQuery;
+    dsTecnicosAgricola: TDataSource;
+    procedure DataModuleCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    vCaminho: TFileName;
+  end;
+
+var
+  dmPrincipal: TdmPrincipal;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+procedure TdmPrincipal.DataModuleCreate(Sender: TObject);
+begin
+  try
+    with TIniFile.Create(ExtractFilePath(ParamStr(0) + 'Config.ini'))) do
+    begin
+       ReadString('RECEITUARIO', 'CAMINHOBD', '')
+    end;
+
+    FDConnection.Params.Database := vCaminho;
+
+  finally
+
+  end;
+
+end;
+
+end.

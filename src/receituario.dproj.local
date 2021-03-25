@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2021/03/20 13:04:49.000.475,=D:\Delphi\Projects\Unit1.pas</Transaction>
+    <Transaction>2021/03/21 15:57:18.000.508,=D:\Delphi\Projects\Unit1.pas</Transaction>
+    <Transaction>2021/03/21 15:57:51.000.810,D:\Delphi\Projects\Receituario\uPrincipal.pas=D:\Delphi\Projects\Unit1.pas</Transaction>
+    <Transaction>2021/03/21 15:57:51.000.810,D:\Delphi\Projects\Receituario\uPrincipal.dfm=D:\Delphi\Projects\Unit1.dfm</Transaction>
+    <Transaction>2021/03/21 16:05:16.000.890,=D:\Delphi\Projects\Unit1.pas</Transaction>
+    <Transaction>2021/03/21 16:07:05.000.117,D:\Delphi\Projects\Receituario\uDmPrincipal.dfm=D:\Delphi\Projects\Unit1.dfm</Transaction>
+    <Transaction>2021/03/21 16:07:05.000.117,D:\Delphi\Projects\Receituario\uDmPrincipal.pas=D:\Delphi\Projects\Unit1.pas</Transaction>
+    <Transaction>2021/03/21 19:00:37.000.251,D:\Delphi\Projects\Receituario\receituario.dproj=D:\Delphi\Projects\Project1.dproj</Transaction>
+    <Transaction>2021/03/23 00:56:14.000.782,=D:\Delphi\Projects\Receituario\Unit1.pas</Transaction>
+    <Transaction>2021/03/23 11:03:42.000.531,=D:\Delphi\Projects\Receituario\Unit1.pas</Transaction>
+    <Transaction>2021/03/23 11:04:03.000.134,D:\Delphi\Projects\Receituario\uPersistance.pas=D:\Delphi\Projects\Receituario\Unit1.pas</Transaction>
+    <Transaction>2021/03/23 11:28:01.000.650,=D:\Delphi\Projects\Receituario\Unit1.pas</Transaction>
+    <Transaction>2021/03/23 16:31:12.000.227,=D:\Delphi\Projects\Receituario\Unit1.pas</Transaction>
+    <Transaction>2021/03/23 16:31:41.000.638,D:\Delphi\Projects\Receituario\Unit1.pas=D:\Delphi\Projects\Receituario\uProduto.pas</Transaction>
+    <Transaction>2021/03/23 16:31:41.000.638,D:\Delphi\Projects\Receituario\Unit1.dfm=D:\Delphi\Projects\Receituario\uProduto.dfm</Transaction>
+    <Transaction>2021/03/24 09:12:24.000.200,=D:\Delphi\Projects\Receituario\Unit1.pas</Transaction>
+    <Transaction>2021/03/24 09:13:14.000.951,D:\Delphi\Projects\Receituario\Unit1.dfm=D:\Delphi\Projects\Receituario\uTecnicoAgricola.dfm</Transaction>
+    <Transaction>2021/03/24 09:13:14.000.951,D:\Delphi\Projects\Receituario\Unit1.pas=D:\Delphi\Projects\Receituario\uTecnicoAgricola.pas</Transaction>
+    <Transaction>2021/03/24 18:27:25.000.701,=D:\Delphi\Projects\Receituario\Unit1.pas</Transaction>
+    <Transaction>2021/03/24 18:27:57.000.966,D:\Delphi\Projects\Receituario\uCliente.dfm=D:\Delphi\Projects\Receituario\Unit1.dfm</Transaction>
+    <Transaction>2021/03/24 18:27:57.000.966,D:\Delphi\Projects\Receituario\uCliente.pas=D:\Delphi\Projects\Receituario\Unit1.pas</Transaction>
+  </Transactions>
+</BorlandProject>
