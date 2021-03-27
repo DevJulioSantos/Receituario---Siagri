@@ -1,0 +1,100 @@
+unit uPesqCliente;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Data.DB,
+  Vcl.Grids, Vcl.DBGrids, Vcl.Buttons;
+
+type
+  TfrmPesqCliente = class(TForm)
+    pnlTop: TPanel;
+    pnlMid: TPanel;
+    Panel3: TPanel;
+    Label1: TLabel;
+    pnlBusca: TPanel;
+    rbIdCliente: TRadioButton;
+    rbNome: TRadioButton;
+    rbCPF: TRadioButton;
+    edtBuscar: TEdit;
+    btnPesquisar: TBitBtn;
+    grdCliente: TDBGrid;
+    btnConfirmar: TBitBtn;
+    btnCancelar: TBitBtn;
+    procedure btnPesquisarClick(Sender: TObject);
+    procedure rbIdClienteClick(Sender: TObject);
+    procedure rbNomeClick(Sender: TObject);
+    procedure rbCPFClick(Sender: TObject);
+    procedure btnConfirmarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmPesqCliente: TfrmPesqCliente;
+
+implementation
+
+uses uDmPrincipal, uPedido;
+
+{$R *.dfm}
+
+procedure TfrmPesqCliente.btnConfirmarClick(Sender: TObject);
+begin
+  frmPe
+end;
+
+procedure TfrmPesqCliente.btnPesquisarClick(Sender: TObject);
+begin
+    try
+    dmPrincipal.qryClientes.SQL.Text := '';
+    dmPrincipal.qryClientes.SQL.Text := 'SELECT * FROM CLIENTES ';
+
+    if edtBuscar.Text <> '' then
+    begin
+      if rbIdCliente.Checked then
+        dmPrincipal.qryClientes.SQL.Text := dmPrincipal.qryClientes.SQL.Text + 'WHERE ID_CLIENTE = ' + edtBuscar.Text
+      else if rbNome.Checked then
+        dmPrincipal.qryClientes.SQL.Text := dmPrincipal.qryClientes.SQL.Text + 'WHERE UPPER(NOME) LIKE ''%' + UpperCase(edtBuscar.Text) + '%'''
+      else if rbCPF.Checked then
+        dmPrincipal.qryClientes.SQL.Text := dmPrincipal.qryClientes.SQL.Text + 'WHERE CPF LIKE ''%' + UpperCase(edtBuscar.Text) + '%'''
+    end;
+
+    dmPrincipal.qryClientes.SQL.Text := dmPrincipal.qryClientes.SQL.Text + ' ORDER BY ID_CLIENTE';
+    dmPrincipal.qryClientes.Open();
+
+  except
+   on e:exception do
+   begin
+     ShowMessage('Erro ao pesquisar pessoas. - Erro: ' + e.Message);
+   end;
+  end;
+end;
+
+procedure TfrmPesqCliente.rbCPFClick(Sender: TObject);
+begin
+  edtBuscar.Enabled := True;
+  edtBuscar.Clear;
+  rbIdCliente.Checked := False;
+  rbNome.Checked := False;
+end;
+
+procedure TfrmPesqCliente.rbIdClienteClick(Sender: TObject);
+begin
+  edtBuscar.Enabled := True;
+  edtBuscar.Clear;
+  rbNome.Checked := False;
+  rbCPF.Checked := False;
+end;
+
+procedure TfrmPesqCliente.rbNomeClick(Sender: TObject);
+begin
+  edtBuscar.Enabled := True;
+  edtBuscar.Clear;
+  rbIdCliente.Checked := False;
+  rbCPF.Checked := False;
+end;
+end.

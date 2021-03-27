@@ -1,0 +1,20 @@
+program receituario;
+
+uses
+  Vcl.Forms,
+  uPrincipal in 'uPrincipal.pas' {frmPrincipal},
+  uDmPrincipal in 'uDmPrincipal.pas' {dmPrincipal: TDataModule},
+  uPersistance in 'uPersistance.pas',
+  uProduto in 'uProduto.pas' {frmProdutos},
+  uTecnicoAgricola in 'uTecnicoAgricola.pas' {frmTecnicoAgricola},
+  uCliente in 'uCliente.pas' {frmCliente};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfrmPrincipal, frmPrincipal);
+  Application.CreateForm(TdmPrincipal, dmPrincipal);
+  Application.Run;
+end.

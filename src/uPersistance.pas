@@ -26,6 +26,17 @@ type
       procedure ExcluirTecnicoAgricola(pIdTecnico: Integer);
       procedure AlterarTecnicoAgricola(pNome, pCPF: String; pNumRegistro, pIdTecnico: Integer);
 
+      procedure InserirPedido(pIdCliente: Integer);
+      procedure AlterarPedido(pIdPedidoTotal: Integer; pValorTotal,  pQtdTotal: Double);
+      procedure AlterarPedidoControlado(pIdPedidoTotal: Integer);
+      procedure InserirPedidoItem(pIdPedidoTotal, pIdProduto: Integer;  pQtdProduto: Double);
+      Procedure BuscarPedidoItem(pIdPedidoTotal: Integer);
+      procedure AprovarPedido(pIdPedido: Integer);
+
+      Procedure InserirReceita(pIdPedido: Integer);
+      procedure AssinarReceita(pIdReceita, pIdTecnico: Integer);
+
+      function PedidoJaControlado(pIdPedido: Integer): Boolean;
       function ValidarCPFExistente(pCPF: String): Boolean;
   end;
 
@@ -68,6 +79,67 @@ vQry := TFDQuery.Create(nil);
   finally
 		FreeAndNil(vQry);
   end;    
+end;
+
+procedure TPersistence.AlterarPedido(pIdPedidoTotal: Integer; pValorTotal,  pQtdTotal: Double);
+var
+  vQry: TFDQuery;
+begin
+
+vQry := TFDQuery.Create(nil);
+	try
+		try
+      vQry.Connection := dmPrincipal.FDConnection;
+      vQry.SQL.Clear;
+      vQry.Close;
+
+      vQry.SQL.Add('UPDATE PEDIDO_VENDA_TOTAL SET VALOR_TOTAL = (VALOR_TOTAL + :VALOR_TOTAL) , QTD_TOTAL = (QTD_TOTAL + :QTD_TOTAL) WHERE ID_PEDIDO_TOTAL = :ID_PEDIDO_TOTAL');
+
+      vQry.ParamByName('VALOR_TOTAL').AsFloat := pValorTotal;
+      vQry.ParamByName('QTD_TOTAL').AsFloat := pQtdTotal;
+      vQry.ParamByName('ID_PEDIDO_TOTAL').AsInteger := pIdPedidoTotal;
+  	  vQry.ExecSQL;
+    except
+      on e:Exception do
+			begin
+        raise Exception.Create('Erro ao alterar dados na tabela "PEDIDO_VENDA_TOTAL"! Erro: ' + e.Message);
+				Abort;
+			end;
+    end;
+  finally
+		FreeAndNil(vQry);
+  end;
+
+end;
+
+procedure TPersistence.AlterarPedidoControlado(pIdPedidoTotal: Integer);
+var
+  vQry: TFDQuery;
+begin
+
+vQry := TFDQuery.Create(nil);
+	try
+		try
+      vQry.Connection := dmPrincipal.FDConnection;
+      vQry.SQL.Clear;
+      vQry.Close;
+
+      vQry.SQL.Add('UPDATE PEDIDO_VENDA_TOTAL SET CONTEM_PROD_CONTROLADO = :CONTEM_PROD_CONTROLADO, STATUS = :STATUS WHERE ID_PEDIDO_TOTAL = :ID_PEDIDO_TOTAL');
+
+      vQry.ParamByName('CONTEM_PROD_CONTROLADO').AsString := 'S';
+      vQry.ParamByName('STATUS').AsString := 'AGUARDANDO RECEITA';
+      vQry.ParamByName('ID_PEDIDO_TOTAL').AsInteger := pIdPedidoTotal;
+  	  vQry.ExecSQL;
+    except
+      on e:Exception do
+			begin
+        raise Exception.Create('Erro ao alterar dados na tabela "PEDIDO_VENDA_TOTAL"! Erro: ' + e.Message);
+				Abort;
+			end;
+    end;
+  finally
+		FreeAndNil(vQry);
+  end;
 end;
 
 procedure TPersistence.AlterarProduto(pIdProduto: Integer; pNome: String;
@@ -131,6 +203,84 @@ vQry := TFDQuery.Create(nil);
     end;
   finally
 		FreeAndNil(vQry);
+  end;
+end;
+
+procedure TPersistence.AprovarPedido(pIdPedido: Integer);
+var
+  vQry: TFDQuery;
+begin
+
+vQry := TFDQuery.Create(nil);
+	try
+		try
+      vQry.Connection := dmPrincipal.FDConnection;
+      vQry.SQL.Clear;
+      vQry.Close;
+
+      vQry.SQL.Add('UPDATE PEDIDO_VENDA_TOTAL SET STATUS = :STATUS WHERE ID_PEDIDO_TOTAL = :ID_PEDIDO_TOTAL');
+
+      vQry.ParamByName('STATUS').AsString := 'CONCLUIDO';
+      vQry.ParamByName('ID_PEDIDO_TOTAL').AsInteger := pIdPedido;
+  	  vQry.ExecSQL;
+    except
+      on e:Exception do
+			begin
+        raise Exception.Create('Erro ao alterar dados na tabela "PEDIDO_VENDA_TOTAL"! Erro: ' + e.Message);
+				Abort;
+			end;
+    end;
+  finally
+		FreeAndNil(vQry);
+  end;
+end;
+
+procedure TPersistence.AssinarReceita(pIdReceita, pIdTecnico: Integer);
+var
+  vQry: TFDQuery;
+begin
+
+vQry := TFDQuery.Create(nil);
+	try
+		try
+      vQry.Connection := dmPrincipal.FDConnection;
+      vQry.SQL.Clear;
+      vQry.Close;
+
+      vQry.SQL.Add('UPDATE RECEITAS SET ID_TECNICO_AGRICOLA = :ID_TECNICO_AGRICOLA WHERE ID_RECEITA = :ID_RECEITA;');
+
+      vQry.ParamByName('ID_TECNICO_AGRICOLA').AsInteger := pIdTecnico;
+      vQry.ParamByName('ID_RECEITA').AsInteger := pIdReceita;
+  	  vQry.ExecSQL;
+
+    except
+      on e:Exception do
+			begin
+        raise Exception.Create('Erro ao alterar registro na tabela "RECEITAS"! Erro: ' + e.Message);
+				Abort;
+			end;
+    end;
+  finally
+		FreeAndNil(vQry);
+  end;
+end;
+
+procedure TPersistence.BuscarPedidoItem(pIdPedidoTotal: Integer);
+begin
+  try
+    dmPrincipal.qryPedidoItem.SQL.Clear;
+    dmPrincipal.qryPedidoItem.Close;
+
+    dmPrincipal.qryPedidoItem.SQL.Add('SELECT * FROM PEDIDO_VENDA_ITENS WHERE ID_PEDIDO_TOTAL = :ID_PEDIDO_TOTAL;');
+
+    dmPrincipal.qryPedidoItem.ParamByName('ID_PEDIDO_TOTAL').AsInteger := pIdPedidoTotal;
+    dmPrincipal.qryPedidoItem.Open;
+  except
+    on e:Exception do
+    begin
+      raise Exception.Create('Erro ao pesquisar registro na tabela "PEDIDO_VENDA_ITEM"! Erro: ' + e.Message);
+      Abort;
+    end;
   end;
 end;
 
@@ -248,6 +398,64 @@ begin
 	end;
 end;
 
+procedure TPersistence.InserirPedido(pIdCliente: Integer);
+var
+  vQry: TFDQuery;
+begin
+  vQry := TFDQuery.Create(nil);
+	try
+		try
+      vQry.Connection := dmPrincipal.FDConnection;
+      vQry.SQL.Clear;
+      vQry.Close;
+
+      vQry.SQL.Add('INSERT INTO PEDIDO_VENDA_TOTAL (DATA_PEDIDO, ID_CLIENTE, VALOR_TOTAL, QTD_TOTAL, CONTEM_PROD_CONTROLADO, STATUS) VALUES (:DATA_PEDIDO, :ID_CLIENTE, 0, 0, ''N'', ''CONCLUIDO'');');
+
+      vQry.ParamByName('DATA_PEDIDO').AsDate := Now;
+      vQry.ParamByName('ID_CLIENTE').AsInteger := pIdCliente;
+      vQry.ExecSQL;
+    except
+      on e:Exception do
+			begin
+        raise Exception.Create('Erro ao inserir dados na tabela "PEDIDO_VENDA_TOTAL"! Erro: ' + e.Message);
+				Abort;
+			end;
+    end;
+  finally
+		FreeAndNil(vQry);
+  end;
+end;
+
+procedure TPersistence.InserirPedidoItem(pIdPedidoTotal, pIdProduto: Integer;  pQtdProduto: Double);
+var
+  vQry: TFDQuery;
+begin
+
+vQry := TFDQuery.Create(nil);
+	try
+		try
+      vQry.Connection := dmPrincipal.FDConnection;
+      vQry.SQL.Clear;
+      vQry.Close;
+
+      vQry.SQL.Add('INSERT INTO PEDIDO_VENDA_ITENS (ID_PEDIDO_TOTAL, ID_PRODUTO, QTD_PRODUTO) VALUES (:ID_PEDIDO_TOTAL, :ID_PRODUTO, :QTD_PRODUTO);');
+
+      vQry.ParamByName('ID_PEDIDO_TOTAL').AsInteger := pIdPedidoTotal;
+      vQry.ParamByName('ID_PRODUTO').AsInteger      := pIdProduto;
+      vQry.ParamByName('QTD_PRODUTO').AsFloat     := pQtdProduto;
+      vQry.ExecSQL;
+    except
+      on e:Exception do
+			begin
+        raise Exception.Create('Erro ao inserir dados na tabela "PEDIDO_VENDA_ITENS"! Erro: ' + e.Message);
+				Abort;
+			end;
+    end;
+  finally
+		FreeAndNil(vQry);
+  end;
+end;
+
 procedure TPersistence.InserirProduto(pNome: String; pValor: Double;  pControlado: String);
 var
   vQry: TFDQuery;
@@ -276,6 +484,36 @@ vQry := TFDQuery.Create(nil);
   finally
 		FreeAndNil(vQry);
   end;
+end;
+
+procedure TPersistence.InserirReceita(pIdPedido: Integer);
+var
+  vQry: TFDQuery;
+begin
+  vQry := TFDQuery.Create(nil);
+	try
+		try
+      vQry.Connection := dmPrincipal.FDConnection;
+      vQry.SQL.Clear;
+      vQry.Close;
+
+      vQry.SQL.Add('INSERT INTO RECEITAS (ID_PEDIDO) VALUES (:ID_PEDIDO);');
+
+      vQry.ParamByName('ID_PEDIDO').AsInteger := pIdPedido;
+
+      vQry.ExecSQL;
+		except
+			on e:Exception do
+			begin
+        raise Exception.Create('Erro ao inserir dados na tabela "RECEITAS"! Erro: ' + e.Message);
+				Abort;
+			end;
+		end;
+
+	finally
+		FreeAndNil(vQry);
+	end;
+
 end;
 
 procedure TPersistence.InserirTecnicoAgricola(pNome, pCPF: String;
@@ -308,6 +546,39 @@ begin
 	finally
 		FreeAndNil(vQry);
 	end;
+end;
+
+function TPersistence.PedidoJaControlado(pIdPedido: Integer): Boolean;
+var
+  vQry: TFDQuery;
+begin
+
+vQry := TFDQuery.Create(nil);
+	try
+		try
+      vQry.Connection := dmPrincipal.FDConnection;
+      vQry.SQL.Clear;
+      vQry.Close;
+
+      vQry.SQL.Add('SELECT CONTEM_PROD_CONTROLADO FROM PEDIDO_VENDA_TOTAL WHERE ID_PEDIDO_TOTAL = :ID_PEDIDO_TOTAL;');
+      vQry.ParamByName('ID_PEDIDO_TOTAL').AsInteger  := pIdPedido;
+	    vQry.Open;
+
+      if vQry.FieldByName('CONTEM_PROD_CONTROLADO').AsString = 'S' then
+        Result := True
+      else
+        Result := False;
+
+    except
+      on e:Exception do
+			begin
+        raise Exception.Create('Erro ao pesquisar dados do pedido! Erro: ' + e.Message);
+				Abort;
+			end;
+    end;
+  finally
+		FreeAndNil(vQry);
+  end;
 end;
 
 function TPersistence.ValidarCPFExistente(pCPF: String): Boolean;

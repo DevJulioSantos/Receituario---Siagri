@@ -127,9 +127,10 @@ begin
         dmPrincipal.qryProdutos.SQL.Text := dmPrincipal.qryProdutos.SQL.Text + 'WHERE ID_PRODUTO = ' + edtBuscar.Text
       else if rbNomeProduto.Checked then
         dmPrincipal.qryProdutos.SQL.Text := dmPrincipal.qryProdutos.SQL.Text + 'WHERE UPPER(NOME) LIKE ''%' + UpperCase(edtBuscar.Text) + '%'''
-      else if rbControlado.Checked then
-        dmPrincipal.qryProdutos.SQL.Text := dmPrincipal.qryProdutos.SQL.Text + 'WHERE CONTROLADO = ' + Copy(cbControlado.Text, 1, 1);
     end;
+
+    if ((cbControlado.Text <> '') and (rbControlado.Checked)) then
+      dmPrincipal.qryProdutos.SQL.Text := dmPrincipal.qryProdutos.SQL.Text + 'WHERE CONTROLADO = ' + Copy(cbControlado.Text, 1, 1);
 
     dmPrincipal.qryProdutos.SQL.Text := dmPrincipal.qryProdutos.SQL.Text + ' ORDER BY ID_PRODUTO';
     dmPrincipal.qryProdutos.Open();
@@ -196,12 +197,10 @@ begin
   edtIdProduto.Text    := dmPrincipal.qryProdutos.FieldByName('ID_PRODUTO').AsString;
   edtNomeProduto.Text  := dmPrincipal.qryProdutos.FieldByName('NOME').AsString;
   edtValorProduto.Text := dmPrincipal.qryProdutos.FieldByName('VALOR').AsString;
-  if dmPrincipal.qryProdutos.FieldByName('CONTROLADO').AsString = 'V' then
+  if dmPrincipal.qryProdutos.FieldByName('CONTROLADO').AsString = 'S' then
     ChecboxControlado.Checked := True
   else
     ChecboxControlado.Checked := False;
-
-  // ChecboxControlado.Checked := IfThen((dmPrincipal.qryProdutos.FieldByName('CONTROLADO').AsString = 'V'), 1, 0);
 end;
 
 procedure TfrmProdutos.ResetarCamposProduto;

@@ -22,8 +22,6 @@ object frmTecnicoAgricola: TfrmTecnicoAgricola
     Color = clWindow
     ParentBackground = False
     TabOrder = 0
-    ExplicitLeft = -8
-    ExplicitTop = 449
     DesignSize = (
       994
       57)
@@ -83,8 +81,6 @@ object frmTecnicoAgricola: TfrmTecnicoAgricola
     Height = 387
     Align = alClient
     TabOrder = 1
-    ExplicitWidth = 1002
-    ExplicitHeight = 458
     object pnlBusca: TPanel
       Left = 1
       Top = 1
@@ -94,7 +90,6 @@ object frmTecnicoAgricola: TfrmTecnicoAgricola
       Color = clWindow
       ParentBackground = False
       TabOrder = 0
-      ExplicitWidth = 1000
       object rbIdTecnico: TRadioButton
         Left = 16
         Top = 8
@@ -248,7 +243,6 @@ object frmTecnicoAgricola: TfrmTecnicoAgricola
       Height = 240
       Align = alTop
       TabOrder = 1
-      ExplicitWidth = 1000
       object grdTecnicos: TDBGrid
         Left = 1
         Top = 1
@@ -256,6 +250,7 @@ object frmTecnicoAgricola: TfrmTecnicoAgricola
         Height = 238
         Align = alClient
         DataSource = dmPrincipal.dsTecnicosAgricola
+        ReadOnly = True
         TabOrder = 0
         TitleFont.Charset = DEFAULT_CHARSET
         TitleFont.Color = clWindowText
@@ -275,8 +270,6 @@ object frmTecnicoAgricola: TfrmTecnicoAgricola
       Color = clWindow
       ParentBackground = False
       TabOrder = 2
-      ExplicitWidth = 1000
-      ExplicitHeight = 152
       object Label1: TLabel
         Left = 104
         Top = 20
@@ -358,7 +351,6 @@ object frmTecnicoAgricola: TfrmTecnicoAgricola
     Color = clWindow
     ParentBackground = False
     TabOrder = 2
-    ExplicitWidth = 1002
     object lblCLientes: TLabel
       Left = 262
       Top = 11

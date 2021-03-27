@@ -1,0 +1,243 @@
+object dmPrincipal: TdmPrincipal
+  OldCreateOrder = False
+  Height = 377
+  Width = 1110
+  object FDConnection: TFDConnection
+    Params.Strings = (
+      'User_Name=sysdba'
+      'Password=masterkey'
+      'Server=localhost'
+      'Port=3050'
+      
+        'Database=D:\Delphi\Projects\Receituario---Siagri\data\RECEITUARI' +
+        'O.FDB'
+      'DriverID=FB')
+    Connected = True
+    LoginPrompt = False
+    Left = 1040
+    Top = 24
+  end
+  object FDPhysFBDriverLink: TFDPhysFBDriverLink
+    VendorLib = 'D:\Delphi\Projects\Receituario---Siagri\utils\fbclient.dll'
+    Left = 1040
+    Top = 80
+  end
+  object qryClientes: TFDQuery
+    Connection = FDConnection
+    SQL.Strings = (
+      'select * from clientes where id_cliente = 3')
+    Left = 24
+    Top = 16
+    object qryClientesID_CLIENTE: TIntegerField
+      FieldName = 'ID_CLIENTE'
+      Origin = 'ID_CLIENTE'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object qryClientesNOME: TStringField
+      FieldName = 'NOME'
+      Origin = 'NOME'
+      Required = True
+      Size = 100
+    end
+    object qryClientesCPF: TStringField
+      FieldName = 'CPF'
+      Origin = 'CPF'
+      Required = True
+      Size = 11
+    end
+  end
+  object dsClientes: TDataSource
+    DataSet = qryClientes
+    Left = 24
+    Top = 72
+  end
+  object qryProdutos: TFDQuery
+    Connection = FDConnection
+    SQL.Strings = (
+      'SELECT * FROM PRODUTOS;')
+    Left = 96
+    Top = 16
+    object qryProdutosNOME: TStringField
+      FieldName = 'NOME'
+      Origin = 'NOME'
+      Required = True
+      Size = 100
+    end
+    object qryProdutosVALOR: TSingleField
+      FieldName = 'VALOR'
+      Origin = 'VALOR'
+      Required = True
+    end
+    object qryProdutosCONTROLADO: TStringField
+      FieldName = 'CONTROLADO'
+      Origin = 'CONTROLADO'
+      Required = True
+      Size = 1
+    end
+    object qryProdutosID_PRODUTO: TIntegerField
+      FieldName = 'ID_PRODUTO'
+      Origin = 'ID_PRODUTO'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+  end
+  object dsProdutos: TDataSource
+    DataSet = qryProdutos
+    Left = 96
+    Top = 72
+  end
+  object qryTenicosAgricola: TFDQuery
+    Connection = FDConnection
+    SQL.Strings = (
+      'SELECT * FROM TECNICO_AGRICOLA;')
+    Left = 177
+    Top = 16
+    object qryTenicosAgricolaNOME: TStringField
+      FieldName = 'NOME'
+      Origin = 'NOME'
+      Required = True
+      Size = 100
+    end
+    object qryTenicosAgricolaCPF: TStringField
+      FieldName = 'CPF'
+      Origin = 'CPF'
+      Required = True
+      Size = 11
+    end
+    object qryTenicosAgricolaNUMERO_REGISTRO: TIntegerField
+      FieldName = 'NUMERO_REGISTRO'
+      Origin = 'NUMERO_REGISTRO'
+      Required = True
+    end
+    object qryTenicosAgricolaID_TECNICO_AGRICOLA: TIntegerField
+      FieldName = 'ID_TECNICO_AGRICOLA'
+      Origin = 'ID_TECNICO_AGRICOLA'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+  end
+  object dsTecnicosAgricola: TDataSource
+    DataSet = qryTenicosAgricola
+    Left = 175
+    Top = 72
+  end
+  object qryPedidoTotal: TFDQuery
+    Connection = FDConnection
+    SQL.Strings = (
+      'select * from pedido_venda_total;')
+    Left = 270
+    Top = 16
+    object qryPedidoTotalDATA_PEDIDO: TSQLTimeStampField
+      FieldName = 'DATA_PEDIDO'
+      Origin = 'DATA_PEDIDO'
+      Required = True
+    end
+    object qryPedidoTotalID_PEDIDO_TOTAL: TIntegerField
+      FieldName = 'ID_PEDIDO_TOTAL'
+      Origin = 'ID_PEDIDO_TOTAL'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object qryPedidoTotalCONTEM_PROD_CONTROLADO: TStringField
+      FieldName = 'CONTEM_PROD_CONTROLADO'
+      Origin = 'CONTEM_PROD_CONTROLADO'
+      Required = True
+      Size = 1
+    end
+    object qryPedidoTotalSTATUS: TStringField
+      FieldName = 'STATUS'
+      Origin = 'STATUS'
+      Required = True
+    end
+    object qryPedidoTotalID_CLIENTE: TIntegerField
+      FieldName = 'ID_CLIENTE'
+      Origin = 'ID_CLIENTE'
+      Required = True
+    end
+    object qryPedidoTotalVALOR_TOTAL: TIntegerField
+      FieldName = 'VALOR_TOTAL'
+      Origin = 'VALOR_TOTAL'
+      Required = True
+    end
+    object qryPedidoTotalQTD_TOTAL: TSmallintField
+      FieldName = 'QTD_TOTAL'
+      Origin = 'QTD_TOTAL'
+      Required = True
+    end
+  end
+  object dsPedidoTotal: TDataSource
+    DataSet = qryPedidoTotal
+    Left = 271
+    Top = 72
+  end
+  object qryPedidoItem: TFDQuery
+    Connection = FDConnection
+    SQL.Strings = (
+      
+        'select * from pedido_venda_itens where id_pedido_total = :id_ped' +
+        'ido_total;')
+    Left = 350
+    Top = 16
+    ParamData = <
+      item
+        Name = 'ID_PEDIDO_TOTAL'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end>
+    object qryPedidoItemID_PEDIDO_ITEM: TIntegerField
+      FieldName = 'ID_PEDIDO_ITEM'
+      Origin = 'ID_PEDIDO_ITEM'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object qryPedidoItemID_PEDIDO_TOTAL: TIntegerField
+      FieldName = 'ID_PEDIDO_TOTAL'
+      Origin = 'ID_PEDIDO_TOTAL'
+      Required = True
+    end
+    object qryPedidoItemID_PRODUTO: TIntegerField
+      FieldName = 'ID_PRODUTO'
+      Origin = 'ID_PRODUTO'
+      Required = True
+    end
+    object qryPedidoItemQTD_PRODUTO: TSingleField
+      FieldName = 'QTD_PRODUTO'
+      Origin = 'QTD_PRODUTO'
+      Required = True
+    end
+  end
+  object dsPedidoItem: TDataSource
+    DataSet = qryPedidoItem
+    Left = 351
+    Top = 72
+  end
+  object qryReceitas: TFDQuery
+    Connection = FDConnection
+    SQL.Strings = (
+      'select * from receitas')
+    Left = 422
+    Top = 16
+    object qryReceitasID_RECEITA: TIntegerField
+      FieldName = 'ID_RECEITA'
+      Origin = 'ID_RECEITA'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object qryReceitasID_PEDIDO: TIntegerField
+      FieldName = 'ID_PEDIDO'
+      Origin = 'ID_PEDIDO'
+      Required = True
+    end
+    object qryReceitasID_TECNICO_AGRICOLA: TIntegerField
+      FieldName = 'ID_TECNICO_AGRICOLA'
+      Origin = 'ID_TECNICO_AGRICOLA'
+    end
+  end
+  object dsReceitas: TDataSource
+    DataSet = qryReceitas
+    Left = 423
+    Top = 72
+  end
+end

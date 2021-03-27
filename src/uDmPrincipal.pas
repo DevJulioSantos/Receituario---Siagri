@@ -25,6 +25,34 @@ type
     dsProdutos: TDataSource;
     qryTenicosAgricola: TFDQuery;
     dsTecnicosAgricola: TDataSource;
+    qryPedidoTotal: TFDQuery;
+    dsPedidoTotal: TDataSource;
+    qryPedidoItem: TFDQuery;
+    dsPedidoItem: TDataSource;
+    qryPedidoItemID_PEDIDO_ITEM: TIntegerField;
+    qryPedidoItemID_PEDIDO_TOTAL: TIntegerField;
+    qryPedidoItemID_PRODUTO: TIntegerField;
+    qryPedidoTotalDATA_PEDIDO: TSQLTimeStampField;
+    qryPedidoTotalID_PEDIDO_TOTAL: TIntegerField;
+    qryPedidoTotalCONTEM_PROD_CONTROLADO: TStringField;
+    qryPedidoTotalSTATUS: TStringField;
+    qryPedidoTotalID_CLIENTE: TIntegerField;
+    qryProdutosNOME: TStringField;
+    qryProdutosVALOR: TSingleField;
+    qryProdutosCONTROLADO: TStringField;
+    qryProdutosID_PRODUTO: TIntegerField;
+    qryTenicosAgricolaNOME: TStringField;
+    qryTenicosAgricolaCPF: TStringField;
+    qryTenicosAgricolaNUMERO_REGISTRO: TIntegerField;
+    qryTenicosAgricolaID_TECNICO_AGRICOLA: TIntegerField;
+    qryPedidoItemQTD_PRODUTO: TSingleField;
+    qryReceitas: TFDQuery;
+    dsReceitas: TDataSource;
+    qryReceitasID_RECEITA: TIntegerField;
+    qryReceitasID_PEDIDO: TIntegerField;
+    qryReceitasID_TECNICO_AGRICOLA: TIntegerField;
+    qryPedidoTotalVALOR_TOTAL: TSingleField;
+    qryPedidoTotalQTD_TOTAL: TSingleField;
   private
     { Private declarations }
   public

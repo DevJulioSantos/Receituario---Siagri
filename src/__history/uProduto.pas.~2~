@@ -1,0 +1,252 @@
+unit uProduto;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Data.DB,
+  Vcl.Grids, Vcl.DBGrids, Vcl.Buttons, Vcl.Mask, StrUtils;
+
+type
+  TfrmProdutos = class(TForm)
+    pnlTop: TPanel;
+    pnlMid: TPanel;
+    pnlBot: TPanel;
+    lblCLientes: TLabel;
+    pnlBusca: TPanel;
+    rbIdProduto: TRadioButton;
+    rbNomeProduto: TRadioButton;
+    rbControlado: TRadioButton;
+    edtBuscar: TEdit;
+    btnPesquisar: TBitBtn;
+    pnlGrid: TPanel;
+    grdProduos: TDBGrid;
+    pnlCadastro: TPanel;
+    edtNomeProduto: TEdit;
+    edtIdProduto: TEdit;
+    edtValorProduto: TMaskEdit;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    cbControlado: TComboBox;
+    btnAdicionar: TBitBtn;
+    btnAlterar: TBitBtn;
+    btnSalvar: TBitBtn;
+    btnExcluir: TBitBtn;
+    btnCancelar: TBitBtn;
+    ChecboxControlado: TCheckBox;
+    procedure rbControladoClick(Sender: TObject);
+    procedure rbNomeProdutoClick(Sender: TObject);
+    procedure rbIdProdutoClick(Sender: TObject);
+    procedure btnPesquisarClick(Sender: TObject);
+    procedure btnAdicionarClick(Sender: TObject);
+    procedure btnAlterarClick(Sender: TObject);
+    procedure btnSalvarClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
+    procedure edtBuscarKeyPress(Sender: TObject; var Key: Char);
+    procedure btnCancelarClick(Sender: TObject);
+    procedure grdProduosDblClick(Sender: TObject);
+    procedure edtNomeProdutoKeyPress(Sender: TObject; var Key: Char);
+    procedure edtValorProdutoKeyPress(Sender: TObject; var Key: Char);
+  private
+    procedure ResetarCamposProduto;
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmProdutos: TfrmProdutos;
+
+implementation
+
+{$R *.dfm}
+
+uses uDmPrincipal, uPersistance;
+
+procedure TfrmProdutos.btnAdicionarClick(Sender: TObject);
+begin
+  edtNomeProduto.Enabled := True;
+  edtValorProduto.Enabled := True;
+  ChecboxControlado.Enabled := True;
+
+  btnSalvar.Enabled :=  True;
+  btnCancelar.Enabled := True;
+  btnAlterar.Enabled := False;
+  btnExcluir.Enabled := False;
+end;
+
+procedure TfrmProdutos.btnAlterarClick(Sender: TObject);
+begin
+  if edtIdProduto.Text = EmptyStr then
+  begin
+    ShowMessage('Selecione um produto na grid acima');
+    Exit;
+  end;
+
+  edtNomeProduto.Enabled := True;
+  edtValorProduto.Enabled := True;
+  ChecboxControlado.Enabled := True;
+
+  btnSalvar.Enabled :=  True;
+  btnCancelar.Enabled := True;
+  btnAdicionar.Enabled := False;
+  btnExcluir.Enabled := False
+end;
+
+procedure TfrmProdutos.btnCancelarClick(Sender: TObject);
+begin
+  ResetarCamposProduto;
+end;
+
+procedure TfrmProdutos.btnExcluirClick(Sender: TObject);
+begin
+  if edtIdProduto.Text = EmptyStr then
+  begin
+    ShowMessage('Selecione um produto na grid acima');
+    Exit;
+  end;
+
+  if Application.MessageBox('Deseja Excluir permanentemente esse produto?', 'Atenção', MB_YESNO + MB_ICONWARNING) = IDYES then
+  begin
+    Persistence.ExcluirProduto(StrToInt(edtIdProduto.Text));
+    btnPesquisarClick(nil);
+    ResetarCamposProduto;
+  end;
+end;
+
+procedure TfrmProdutos.btnPesquisarClick(Sender: TObject);
+begin
+   try
+    dmPrincipal.qryProdutos.SQL.Text := '';
+    dmPrincipal.qryProdutos.SQL.Text := 'SELECT * FROM PRODUTOS ';
+
+    if edtBuscar.Text <> '' then
+    begin
+      if rbIdProduto.Checked then
+        dmPrincipal.qryProdutos.SQL.Text := dmPrincipal.qryProdutos.SQL.Text + 'WHERE ID_PRODUTO = ' + edtBuscar.Text
+      else if rbNomeProduto.Checked then
+        dmPrincipal.qryProdutos.SQL.Text := dmPrincipal.qryProdutos.SQL.Text + 'WHERE UPPER(NOME) LIKE ''%' + UpperCase(edtBuscar.Text) + '%'''
+    end;
+
+    if (cbControlado.Text <> '' and (rbControlado.Checked)) then
+        dmPrincipal.qryProdutos.SQL.Text := dmPrincipal.qryProdutos.SQL.Text + 'WHERE CONTROLADO = ' + Copy(cbControlado.Text, 1, 1);
+
+    dmPrincipal.qryProdutos.SQL.Text := dmPrincipal.qryProdutos.SQL.Text + ' ORDER BY ID_PRODUTO';
+    dmPrincipal.qryProdutos.Open();
+
+  except
+   on e:exception do
+   begin
+     ShowMessage('Erro ao pesquisar produto. - Erro: ' + e.Message);
+   end;
+
+  end;
+end;
+
+procedure TfrmProdutos.btnSalvarClick(Sender: TObject);
+begin
+  if edtIdProduto.Text = EmptyStr then
+  begin
+    if (edtNomeProduto.Text = EmptyStr) or (edtValorProduto.Text = EmptyStr) then
+    begin
+      ShowMessage('Os campos "Nome" e "Valor" devem ser preenchidos. O campo "Controlado" caso não preenchido será assumido como "N"');
+      Exit
+    end;
+
+    Persistence.InserirProduto(edtNomeProduto.Text, StrToFloat(edtValorProduto.Text), IfThen(ChecboxControlado.Checked, 'S', 'N'));
+    ShowMessage('Produto inserido com sucesso!');
+  end
+  else
+  begin
+    Persistence.AlterarProduto(StrToInt(edtIdProduto.Text), edtNomeProduto.Text, StrToFloat(edtValorProduto.Text), IfThen(ChecboxControlado.Checked, 'S', 'N'));
+    ShowMessage('Produto alterado com sucesso!');
+  end;
+  ResetarCamposProduto;
+  btnPesquisarClick(nil);
+end;
+
+procedure TfrmProdutos.edtBuscarKeyPress(Sender: TObject; var Key: Char);
+begin
+  if rbIdProduto.Checked then
+  begin
+    if not ( Key in['0'..'9',',', #8] ) then
+    Key := #0;
+  end
+  else if rbNomeProduto.Checked then
+  begin
+    if not (Key in['A'..'Z',#8]) and not (Key in['a'..'z',#8]) and not (Key in ['´', '~', ' ', #8]) then
+    Key := #0;
+  end;
+end;
+
+procedure TfrmProdutos.edtNomeProdutoKeyPress(Sender: TObject; var Key: Char);
+begin
+  if not (Key in['A'..'Z',#8]) and not (Key in['a'..'z',#8]) and not (Key in ['´', '~', ' ', #8]) then
+  Key := #0;
+end;
+
+procedure TfrmProdutos.edtValorProdutoKeyPress(Sender: TObject; var Key: Char);
+begin
+  if not ( Key in['0'..'9',',', #8] ) then
+  Key := #0;
+end;
+
+procedure TfrmProdutos.grdProduosDblClick(Sender: TObject);
+begin
+  edtIdProduto.Text    := dmPrincipal.qryProdutos.FieldByName('ID_PRODUTO').AsString;
+  edtNomeProduto.Text  := dmPrincipal.qryProdutos.FieldByName('NOME').AsString;
+  edtValorProduto.Text := dmPrincipal.qryProdutos.FieldByName('VALOR').AsString;
+  if dmPrincipal.qryProdutos.FieldByName('CONTROLADO').AsString = 'V' then
+    ChecboxControlado.Checked := True
+  else
+    ChecboxControlado.Checked := False;
+
+  // ChecboxControlado.Checked := IfThen((dmPrincipal.qryProdutos.FieldByName('CONTROLADO').AsString = 'V'), 1, 0);
+end;
+
+procedure TfrmProdutos.ResetarCamposProduto;
+begin
+  edtIdProduto.Clear;
+  edtIdProduto.Enabled := False;
+  edtNomeProduto.Clear;
+  edtNomeProduto.Enabled := False;
+  edtValorProduto.Clear;
+  edtValorProduto.Enabled := False;
+  btnAdicionar.Enabled := True;
+  btnAlterar.Enabled := True;
+  btnExcluir.Enabled := True;
+  btnSalvar.Enabled := False;
+  btnCancelar.Enabled := False;
+end;
+
+procedure TfrmProdutos.rbControladoClick(Sender: TObject);
+begin
+  edtBuscar.Clear;
+  edtBuscar.Visible := False;
+  cbControlado.Visible := True;
+  rbIdProduto.Checked := False;
+  rbNomeProduto.Checked := False;
+end;
+
+procedure TfrmProdutos.rbIdProdutoClick(Sender: TObject);
+begin
+  edtBuscar.Enabled := True;
+  edtBuscar.Clear;
+  edtBuscar.Visible := True;
+  cbControlado.Visible := False;
+  rbNomeProduto.Checked := False;
+  rbControlado.Checked := False;
+end;
+
+procedure TfrmProdutos.rbNomeProdutoClick(Sender: TObject);
+begin
+  edtBuscar.Enabled := True;
+  edtBuscar.Clear;
+  edtBuscar.Visible := True;
+  cbControlado.Visible := False;
+  rbIdProduto.Checked := False;
+  rbControlado.Checked := False;
+end;
+
+end.

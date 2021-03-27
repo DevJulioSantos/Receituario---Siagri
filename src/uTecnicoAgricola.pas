@@ -136,7 +136,7 @@ begin
   except
    on e:exception do
    begin
-     ShowMessage('Erro ao pesquisar produto. - Erro: ' + e.Message);
+     ShowMessage('Erro ao pesquisar técnico. - Erro: ' + e.Message);
    end;
 
   end;

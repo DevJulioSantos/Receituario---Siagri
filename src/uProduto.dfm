@@ -216,6 +216,7 @@ object frmProdutos: TfrmProdutos
         Height = 238
         Align = alClient
         DataSource = dmPrincipal.dsProdutos
+        ReadOnly = True
         TabOrder = 0
         TitleFont.Charset = DEFAULT_CHARSET
         TitleFont.Color = clWindowText

@@ -1,0 +1,252 @@
+unit uPedido;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls,
+  Data.DB, Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls;
+
+type
+  TfrmPedido = class(TForm)
+    pnlTop: TPanel;
+    pnlMid: TPanel;
+    pnlBot: TPanel;
+    pnlBusca: TPanel;
+    lblCLientes: TLabel;
+    rbCodPedido: TRadioButton;
+    rbStatusPedido: TRadioButton;
+    edtBuscar: TEdit;
+    btnPesquisar: TBitBtn;
+    cbStatus: TComboBox;
+    pnlPedidos: TPanel;
+    pnlGridPedidos: TPanel;
+    grdPedidos: TDBGrid;
+    pnlItensPedido: TPanel;
+    pnlGridItens: TPanel;
+    grdItensPedido: TDBGrid;
+    btnAdicionar: TBitBtn;
+    pgControlePedido: TPageControl;
+    tsPedido: TTabSheet;
+    tsItemPedido: TTabSheet;
+    edtIdPedido: TEdit;
+    edtDataPedido: TEdit;
+    edtQtdTotalItens: TEdit;
+    edtValorTotal: TEdit;
+    edtStatus: TEdit;
+    cbProdControlado: TCheckBox;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    edtNomeCliente: TEdit;
+    Label7: TLabel;
+    btnPesqCliente: TBitBtn;
+    btnCancelar: TBitBtn;
+    btnSalvar: TBitBtn;
+    edtCodCliente: TEdit;
+    Label8: TLabel;
+    edtNomeProduto: TEdit;
+    btnPesqProdudo: TBitBtn;
+    edtIdProduto: TEdit;
+    edtQuantidade: TEdit;
+    Label9: TLabel;
+    cbProdControladoItem: TCheckBox;
+    Label10: TLabel;
+    edtValor: TEdit;
+    procedure btnPesquisarClick(Sender: TObject);
+    procedure rbCodPedidoClick(Sender: TObject);
+    procedure rbStatusPedidoClick(Sender: TObject);
+    procedure grdPedidosCellClick(Column: TColumn);
+    procedure grdPedidosDblClick(Sender: TObject);
+    procedure btnPesqClienteClick(Sender: TObject);
+    procedure btnAdicionarClick(Sender: TObject);
+    procedure btnSalvarClick(Sender: TObject);
+    procedure btnPesqProdudoClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
+  private
+    procedure LimparCamposPedido;
+    procedure LimparCamposPedidoItens;
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmPedido: TfrmPedido;
+
+implementation
+
+uses uDmPrincipal, uPersistance, uPesqCliente, uPesqProduto;
+
+{$R *.dfm}
+
+procedure TfrmPedido.btnAdicionarClick(Sender: TObject);
+begin
+  if pgControlePedido.ActivePage = tsPedido then
+  begin
+    btnPesqCliente.Enabled := True;
+  end
+  else
+  begin
+    btnPesqProdudo.Enabled := True;
+    edtQuantidade.Enabled := True;
+  end;
+end;
+
+procedure TfrmPedido.btnCancelarClick(Sender: TObject);
+begin
+  LimparCamposPedido;
+  LimparCamposPedidoItens;
+end;
+
+procedure TfrmPedido.btnPesqClienteClick(Sender: TObject);
+begin
+  if TForm(frmPesqCliente) = nil then
+  begin
+    Application.CreateForm(TfrmPesqCliente, TForm(frmPesqCliente));
+  end;
+  TForm(frmPesqCliente).ShowModal;
+end;
+
+procedure TfrmPedido.btnPesqProdudoClick(Sender: TObject);
+begin
+  if TForm(frmPesqProduto) = nil then
+  begin
+    Application.CreateForm(TfrmPesqProduto, TForm(frmPesqProduto));
+  end;
+  TForm(frmPesqProduto).ShowModal;
+end;
+
+procedure TfrmPedido.btnPesquisarClick(Sender: TObject);
+begin
+  try
+    dmPrincipal.qryPedidoTotal.Close;
+    dmPrincipal.qryPedidoTotal.SQL.Text := '';
+    dmPrincipal.qryPedidoTotal.SQL.Text := 'SELECT * FROM PEDIDO_VENDA_TOTAL ';
+
+    if ((edtBuscar.Text <> '') and (rbCodPedido.Checked)) then
+        dmPrincipal.qryPedidoTotal.SQL.Text := dmPrincipal.qryPedidoTotal.SQL.Text + 'WHERE ID_PEDIDO_TOTAL = ' + edtBuscar.Text;
+
+    if ((cbStatus.Text <> '') and (rbStatusPedido.Checked)) then
+        dmPrincipal.qryPedidoTotal.SQL.Text := dmPrincipal.qryPedidoTotal.SQL.Text + 'WHERE STATUS = ' + UpperCase(cbStatus.Text).QuotedString;
+
+
+    dmPrincipal.qryPedidoTotal.SQL.Text := dmPrincipal.qryPedidoTotal.SQL.Text + ' ORDER BY ID_PEDIDO_TOTAL';
+    dmPrincipal.qryPedidoTotal.Open();
+
+  except
+    on e:exception do
+    begin
+     ShowMessage('Erro ao pesquisar produto. - Erro: ' + e.Message);
+    end;
+  end;
+end;
+
+procedure TfrmPedido.btnSalvarClick(Sender: TObject);
+begin
+  if pgControlePedido.ActivePage = tsPedido then
+  begin
+    if edtIdPedido.Text = '' then
+    begin
+      Persistence.InserirPedido(StrToInt(edtCodCliente.Text));
+      ShowMessage('Pedido inserido com sucesso!');
+      LimparCamposPedido;
+    end
+  end
+  else if pgControlePedido.ActivePage = tsItemPedido then
+  begin
+    if edtIdPedido.Text = '' then
+    begin
+      ShowMessage('Antes de iserir um item, selecione um pedido na lista acima!');
+      Exit
+    end;
+
+    if edtQuantidade.Text = '' then
+    begin
+      ShowMessage('Antes de iserir um item, selecione um pedido na lista acima!');
+      Exit
+    end;
+
+
+      Persistence.InserirPedidoItem(StrToInt(edtIdPedido.Text), StrToInt(edtIdProduto.Text), StrToFloat(edtQuantidade.Text));
+      Persistence.AlterarPedido(StrToInt(edtIdPedido.Text), StrToInt(edtValor.Text), StrToInt(edtQuantidade.Text));
+
+      if cbProdControladoItem.Checked and not Persistence.PedidoJaControlado(StrToInt(edtIdPedido.Text)) then
+      begin
+        Persistence.AlterarPedidoControlado(StrToInt(edtIdPedido.Text));
+      end;
+
+      LimparCamposPedidoItens;
+    end;
+  end;
+
+end;
+
+procedure TfrmPedido.FormShow(Sender: TObject);
+begin
+  pgControlePedido.ActivePage := tsPedido;
+end;
+
+procedure TfrmPedido.LimparCamposPedido;
+begin
+  edtIdPedido.Text         := EmptyStr;
+  edtDataPedido.Text       := EmptyStr;
+  edtStatus.Text           := EmptyStr;
+  edtCodCliente.Text       := EmptyStr;
+  edtNomeCliente.Text      := EmptyStr;
+  edtQtdTotalItens.Text    := EmptyStr;
+  edtValorTotal.Text       := EmptyStr;
+  cbProdControlado.Checked := False;
+  dmPrincipal.qryPedidoTotal.Open;
+end;
+
+procedure TfrmPedido.LimparCamposPedidoItens;
+begin
+  edtIdProduto.Text := EmptyStr;
+  edtNomeProduto.Text := EmptyStr;
+  edtValor.Text := EmptyStr;
+  edtQuantidade.Text := EmptyStr;
+  cbProdControladoItem.Checked := False;
+end;
+
+procedure TfrmPedido.grdPedidosCellClick(Column: TColumn);
+begin
+  Persistence.BuscarPedidoItem(dmPrincipal.qryPedidoTotal.FieldByName('ID_PEDIDO_TOTAL').AsInteger);
+end;
+
+procedure TfrmPedido.grdPedidosDblClick(Sender: TObject);
+begin
+  edtIdPedido.Text   := dmPrincipal.qryPedidoTotal.FieldByName('ID_PEDIDO_TOTAL').AsString;
+  edtCodCliente.Text := dmPrincipal.qryPedidoTotal.FieldByName('ID_CLIENTE').AsString;
+  edtStatus.Text     := dmPrincipal.qryPedidoTotal.FieldByName('STATUS').AsString;
+  edtValorTotal.Text := dmPrincipal.qryPedidoTotal.FieldByName('VALOR_TOTAL').AsString;
+  edtQtdTotalItens.Text := dmPrincipal.qryPedidoTotal.FieldByName('QTD_TOTAL').AsString;
+
+  if dmPrincipal.qryPedidoTotal.FieldByName('CONTEM_PROD_CONTROLADO').AsString = 'S' then
+    cbProdControlado.Checked := True
+  else
+    cbProdControlado.Checked := False;
+
+end;
+
+procedure TfrmPedido.rbCodPedidoClick(Sender: TObject);
+begin
+  edtBuscar.Enabled := True;
+  edtBuscar.Clear;
+  edtBuscar.Visible := True;
+  cbStatus.Visible := False;
+  rbStatusPedido.Checked := False;
+end;
+
+procedure TfrmPedido.rbStatusPedidoClick(Sender: TObject);
+begin
+  edtBuscar.Clear;
+  edtBuscar.Visible := False;
+  cbStatus.Visible := True;
+  rbCodPedido.Checked := False;
+end;
+
+end.

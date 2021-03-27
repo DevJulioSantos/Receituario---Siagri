@@ -47,7 +47,6 @@ object frmCliente: TfrmCliente
     ParentBackground = False
     ShowCaption = False
     TabOrder = 1
-    ExplicitTop = 63
     object Label1: TLabel
       Left = 115
       Top = 406
@@ -78,7 +77,6 @@ object frmCliente: TfrmCliente
       Color = clWindow
       ParentBackground = False
       TabOrder = 0
-      ExplicitWidth = 1097
       object rbIdCliente: TRadioButton
         Left = 16
         Top = 8
@@ -223,7 +221,6 @@ object frmCliente: TfrmCliente
       Height = 320
       Align = alTop
       TabOrder = 1
-      ExplicitWidth = 1097
       object DBGrid1: TDBGrid
         Left = 1
         Top = 1
@@ -299,8 +296,6 @@ object frmCliente: TfrmCliente
       Height = 41
       Align = alBottom
       TabOrder = 5
-      ExplicitTop = 528
-      ExplicitWidth = 1097
       DesignSize = (
         992
         41)

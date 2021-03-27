@@ -1,0 +1,70 @@
+unit uPesqTecnico;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.StdCtrls, Vcl.Grids,
+  Vcl.DBGrids, Vcl.Buttons, Vcl.ExtCtrls;
+
+type
+  TForm1 = class(TForm)
+    pnlTop: TPanel;
+    Label1: TLabel;
+    pnlMid: TPanel;
+    pnlBusca: TPanel;
+    edtBuscar: TEdit;
+    btnPesquisar: TBitBtn;
+    grdCliente: TDBGrid;
+    Panel3: TPanel;
+    btnConfirmar: TBitBtn;
+    btnCancelar: TBitBtn;
+    rbIdTecnico: TRadioButton;
+    rbNomeTecnico: TRadioButton;
+    RadioButton1: TRadioButton;
+    rbNumRegistro: TRadioButton;
+    procedure btnPesquisarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.btnPesquisarClick(Sender: TObject);
+begin
+ try
+    dmPrincipal.qryTenicosAgricola.SQL.Text := '';
+    dmPrincipal.qryTenicosAgricola.SQL.Text := 'SELECT * FROM TECNICO_AGRICOLA ';
+
+    if edtBuscar.Text <> '' then
+    begin
+      if rbIdTecnico.Checked then
+        dmPrincipal.qryTenicosAgricola.SQL.Text := dmPrincipal.qryTenicosAgricola.SQL.Text + 'WHERE ID_TECNICO_AGRICOLA = ' + edtBuscar.Text
+      else if rbNomeTecnico.Checked then
+        dmPrincipal.qryTenicosAgricola.SQL.Text := dmPrincipal.qryTenicosAgricola.SQL.Text + 'WHERE UPPER(NOME) LIKE ''%' + UpperCase(edtBuscar.Text) + '%'''
+      else if rbCPF.Checked then
+        dmPrincipal.qryTenicosAgricola.SQL.Text := dmPrincipal.qryTenicosAgricola.SQL.Text + 'WHERE CPF LIKE ''%' + UpperCase(edtBuscar.Text) + '%'''
+      else if rbNumRegistro.Checked then
+        dmPrincipal.qryTenicosAgricola.SQL.Text := dmPrincipal.qryTenicosAgricola.SQL.Text + 'WHERE NUMERO_REGISTRO LIKE ''%' + UpperCase(edtBuscar.Text) + '%'''
+    end;
+
+    dmPrincipal.qryTenicosAgricola.SQL.Text := dmPrincipal.qryTenicosAgricola.SQL.Text + ' ORDER BY ID_TECNICO_AGRICOLA';
+    dmPrincipal.qryTenicosAgricola.Open();
+
+  except
+   on e:exception do
+   begin
+     ShowMessage('Erro ao pesquisar produto. - Erro: ' + e.Message);
+   end;
+
+  end;
+end;
+
+end.
