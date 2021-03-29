@@ -177,6 +177,34 @@ object frmPesqTecnico: TfrmPesqTecnico
       TitleFont.Height = -11
       TitleFont.Name = 'Tahoma'
       TitleFont.Style = []
+      Columns = <
+        item
+          Expanded = False
+          FieldName = 'ID_TECNICO_AGRICOLA'
+          Title.Caption = 'Cod. T'#233'cnico'
+          Width = 70
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'NOME'
+          Title.Caption = 'Nome'
+          Width = 200
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'CPF'
+          Width = 80
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'NUMERO_REGISTRO'
+          Title.Caption = 'Num. Registro'
+          Width = 80
+          Visible = True
+        end>
     end
     object Panel3: TPanel
       Left = 1
@@ -214,6 +242,7 @@ object frmPesqTecnico: TfrmPesqTecnico
     Height = 17
     Caption = 'Cod. T'#233'cnico'
     TabOrder = 2
+    OnClick = rbIdTecnicoClick
   end
   object rbNomeTecnico: TRadioButton
     Left = 108
@@ -222,6 +251,7 @@ object frmPesqTecnico: TfrmPesqTecnico
     Height = 17
     Caption = 'Nome'
     TabOrder = 3
+    OnClick = rbNomeTecnicoClick
   end
   object rbCPF: TRadioButton
     Left = 164
@@ -230,6 +260,7 @@ object frmPesqTecnico: TfrmPesqTecnico
     Height = 17
     Caption = 'CPF'
     TabOrder = 4
+    OnClick = rbCPFClick
   end
   object rbNumRegistro: TRadioButton
     Left = 209
@@ -238,5 +269,6 @@ object frmPesqTecnico: TfrmPesqTecnico
     Height = 17
     Caption = 'Num. Registro'
     TabOrder = 5
+    OnClick = rbNumRegistroClick
   end
 end

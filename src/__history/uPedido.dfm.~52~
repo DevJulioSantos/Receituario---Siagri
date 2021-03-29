@@ -285,6 +285,8 @@ object frmPedido: TfrmPedido
       object tsPedido: TTabSheet
         Hint = 'Pesquiser Cliente'
         Caption = 'Pedido'
+        ExplicitLeft = 6
+        ExplicitTop = 23
         object Label1: TLabel
           Left = 11
           Top = 18
@@ -378,16 +380,17 @@ object frmPedido: TfrmPedido
         end
         object edtNomeCliente: TEdit
           Left = 97
-          Top = 73
+          Top = 72
           Width = 187
           Height = 21
           Hint = 'Para adicionar um cliente utilize o bot'#227'o de pesquisa (...)'
           Enabled = False
+          ReadOnly = True
           TabOrder = 6
         end
         object btnPesqCliente: TBitBtn
           Left = 285
-          Top = 72
+          Top = 73
           Width = 30
           Height = 21
           Caption = '...'
@@ -397,18 +400,19 @@ object frmPedido: TfrmPedido
         end
         object edtCodCliente: TEdit
           Left = 12
-          Top = 72
+          Top = 73
           Width = 79
           Height = 21
           Hint = 'Para adicionar um cliente utilize o bot'#227'o de pesquisa (...)'
           Enabled = False
+          ReadOnly = True
           TabOrder = 8
         end
       end
       object tsItemPedido: TTabSheet
         Caption = 'Itens Pedido'
         ImageIndex = 1
-        ExplicitLeft = 0
+        ExplicitLeft = 6
         ExplicitTop = 23
         object Label8: TLabel
           Left = 12
@@ -438,14 +442,16 @@ object frmPedido: TfrmPedido
           Height = 21
           Hint = 'Para adicionar um produto utilize o bot'#227'o de pesquisa (...)'
           Enabled = False
+          ReadOnly = True
           TabOrder = 0
         end
         object btnPesqProdudo: TBitBtn
-          Left = 290
+          Left = 286
           Top = 41
           Width = 30
           Height = 21
           Caption = '...'
+          Enabled = False
           TabOrder = 1
           OnClick = btnPesqProdudoClick
         end
@@ -456,6 +462,7 @@ object frmPedido: TfrmPedido
           Height = 21
           Hint = 'Para adicionar um produto utilize o bot'#227'o de pesquisa (...)'
           Enabled = False
+          ReadOnly = True
           TabOrder = 2
         end
         object edtQuantidade: TEdit
@@ -504,13 +511,14 @@ object frmPedido: TfrmPedido
       TabOrder = 0
       OnClick = btnAdicionarClick
     end
-    object BitBtn1: TBitBtn
+    object btnCancelar: TBitBtn
       Left = 972
       Top = 8
       Width = 75
       Height = 25
-      Caption = 'BitBtn1'
+      Caption = 'Cancelar'
       TabOrder = 1
+      OnClick = btnCancelarClick
     end
     object btnSalvar: TBitBtn
       Left = 886

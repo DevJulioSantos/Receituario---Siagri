@@ -232,6 +232,52 @@ object frmPedido: TfrmPedido
         TitleFont.Style = []
         OnCellClick = grdPedidosCellClick
         OnDblClick = grdPedidosDblClick
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'ID_PEDIDO_TOTAL'
+            Title.Caption = 'Cod. Pedido'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'DATA_PEDIDO'
+            Title.Caption = 'Data Pedido'
+            Width = 100
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'ID_CLIENTE'
+            Title.Caption = 'Cod. Cliente'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'QTD_TOTAL'
+            Title.Caption = 'Qtd. Total'
+            Width = 100
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'VALOR_TOTAL'
+            Title.Caption = 'Valor Total'
+            Width = 100
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'STATUS'
+            Title.Caption = 'Status'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'CONTEM_PROD_CONTROLADO'
+            Title.Caption = 'Contem Prod. Controlado'
+            Visible = True
+          end>
       end
     end
     object pnlItensPedido: TPanel
@@ -378,16 +424,17 @@ object frmPedido: TfrmPedido
         end
         object edtNomeCliente: TEdit
           Left = 97
-          Top = 73
+          Top = 72
           Width = 187
           Height = 21
           Hint = 'Para adicionar um cliente utilize o bot'#227'o de pesquisa (...)'
           Enabled = False
+          ReadOnly = True
           TabOrder = 6
         end
         object btnPesqCliente: TBitBtn
           Left = 285
-          Top = 72
+          Top = 73
           Width = 30
           Height = 21
           Caption = '...'
@@ -397,19 +444,18 @@ object frmPedido: TfrmPedido
         end
         object edtCodCliente: TEdit
           Left = 12
-          Top = 72
+          Top = 73
           Width = 79
           Height = 21
           Hint = 'Para adicionar um cliente utilize o bot'#227'o de pesquisa (...)'
           Enabled = False
+          ReadOnly = True
           TabOrder = 8
         end
       end
       object tsItemPedido: TTabSheet
         Caption = 'Itens Pedido'
         ImageIndex = 1
-        ExplicitLeft = 0
-        ExplicitTop = 23
         object Label8: TLabel
           Left = 12
           Top = 27
@@ -438,14 +484,16 @@ object frmPedido: TfrmPedido
           Height = 21
           Hint = 'Para adicionar um produto utilize o bot'#227'o de pesquisa (...)'
           Enabled = False
+          ReadOnly = True
           TabOrder = 0
         end
         object btnPesqProdudo: TBitBtn
-          Left = 290
+          Left = 286
           Top = 41
           Width = 30
           Height = 21
           Caption = '...'
+          Enabled = False
           TabOrder = 1
           OnClick = btnPesqProdudoClick
         end
@@ -456,6 +504,7 @@ object frmPedido: TfrmPedido
           Height = 21
           Hint = 'Para adicionar um produto utilize o bot'#227'o de pesquisa (...)'
           Enabled = False
+          ReadOnly = True
           TabOrder = 2
         end
         object edtQuantidade: TEdit
@@ -511,6 +560,7 @@ object frmPedido: TfrmPedido
       Height = 25
       Caption = 'Cancelar'
       TabOrder = 1
+      OnClick = btnCancelarClick
     end
     object btnSalvar: TBitBtn
       Left = 886

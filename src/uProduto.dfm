@@ -224,6 +224,32 @@ object frmProdutos: TfrmProdutos
         TitleFont.Name = 'Tahoma'
         TitleFont.Style = []
         OnDblClick = grdProduosDblClick
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'ID_PRODUTO'
+            Title.Caption = 'Cod. Produto'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'NOME'
+            Title.Caption = 'Nome'
+            Width = 250
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'VALOR'
+            Title.Caption = 'Valor'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'CONTROLADO'
+            Title.Caption = 'Controlado'
+            Visible = True
+          end>
       end
     end
     object pnlCadastro: TPanel

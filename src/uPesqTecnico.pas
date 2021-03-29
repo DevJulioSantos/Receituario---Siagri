@@ -26,6 +26,10 @@ type
     procedure btnPesquisarClick(Sender: TObject);
     procedure btnConfirmarClick(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
+    procedure rbIdTecnicoClick(Sender: TObject);
+    procedure rbNomeTecnicoClick(Sender: TObject);
+    procedure rbCPFClick(Sender: TObject);
+    procedure rbNumRegistroClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -81,6 +85,46 @@ begin
    end;
 
   end;
+end;
+
+procedure TfrmPesqTecnico.rbCPFClick(Sender: TObject);
+begin
+  edtBuscar.Enabled := True;
+  edtBuscar.Clear;
+
+  rbNomeTecnico.Checked := False;
+  rbIdTecnico.Checked := False;
+  rbNumRegistro.Checked := False;
+end;
+
+procedure TfrmPesqTecnico.rbIdTecnicoClick(Sender: TObject);
+begin
+  edtBuscar.Enabled := True;
+  edtBuscar.Clear;
+
+  rbNomeTecnico.Checked := False;
+  rbCPF.Checked := False;
+  rbNumRegistro.Checked := False;
+end;
+
+procedure TfrmPesqTecnico.rbNomeTecnicoClick(Sender: TObject);
+begin
+  edtBuscar.Enabled := True;
+  edtBuscar.Clear;
+
+  rbIdTecnico.Checked := False;
+  rbCPF.Checked := False;
+  rbNumRegistro.Checked := False;
+end;
+
+procedure TfrmPesqTecnico.rbNumRegistroClick(Sender: TObject);
+begin
+  edtBuscar.Enabled := True;
+  edtBuscar.Clear;
+
+  rbNomeTecnico.Checked := False;
+  rbCPF.Checked := False;
+  rbIdTecnico.Checked := False;
 end;
 
 end.

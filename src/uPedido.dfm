@@ -232,6 +232,52 @@ object frmPedido: TfrmPedido
         TitleFont.Style = []
         OnCellClick = grdPedidosCellClick
         OnDblClick = grdPedidosDblClick
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'ID_PEDIDO_TOTAL'
+            Title.Caption = 'Cod. Pedido'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'DATA_PEDIDO'
+            Title.Caption = 'Data Pedido'
+            Width = 100
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'ID_CLIENTE'
+            Title.Caption = 'Cod. Cliente'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'QTD_TOTAL'
+            Title.Caption = 'Qtd. Total'
+            Width = 100
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'VALOR_TOTAL'
+            Title.Caption = 'Valor Total'
+            Width = 100
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'STATUS'
+            Title.Caption = 'Status'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'CONTEM_PROD_CONTROLADO'
+            Title.Caption = 'Contem Prod. Controlado'
+            Visible = True
+          end>
       end
     end
     object pnlItensPedido: TPanel
@@ -272,6 +318,31 @@ object frmPedido: TfrmPedido
         TitleFont.Height = -11
         TitleFont.Name = 'Tahoma'
         TitleFont.Style = []
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'ID_PEDIDO_ITEM'
+            Title.Caption = 'Cod. Pedido item'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'ID_PEDIDO_TOTAL'
+            Title.Caption = 'Cod. Pedido'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'ID_PRODUTO'
+            Title.Caption = 'Cod. Produto'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'QTD_PRODUTO'
+            Title.Caption = 'Qtd. Produto'
+            Visible = True
+          end>
       end
     end
     object pgControlePedido: TPageControl
@@ -285,8 +356,6 @@ object frmPedido: TfrmPedido
       object tsPedido: TTabSheet
         Hint = 'Pesquiser Cliente'
         Caption = 'Pedido'
-        ExplicitLeft = 6
-        ExplicitTop = 23
         object Label1: TLabel
           Left = 11
           Top = 18
@@ -412,8 +481,6 @@ object frmPedido: TfrmPedido
       object tsItemPedido: TTabSheet
         Caption = 'Itens Pedido'
         ImageIndex = 1
-        ExplicitLeft = 6
-        ExplicitTop = 23
         object Label8: TLabel
           Left = 12
           Top = 27

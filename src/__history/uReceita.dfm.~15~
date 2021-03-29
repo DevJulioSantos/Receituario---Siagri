@@ -46,6 +46,8 @@ object frmReceita: TfrmReceita
     Color = clWindow
     ParentBackground = False
     TabOrder = 1
+    ExplicitTop = 68
+    ExplicitHeight = 433
     object Label2: TLabel
       Left = 8
       Top = 326
@@ -209,6 +211,8 @@ object frmReceita: TfrmReceita
       Color = clWindow
       ParentBackground = False
       TabOrder = 1
+      ExplicitLeft = 33
+      ExplicitTop = 414
       object btnCancelar: TBitBtn
         Left = 789
         Top = 9
@@ -250,25 +254,6 @@ object frmReceita: TfrmReceita
         TitleFont.Name = 'Tahoma'
         TitleFont.Style = []
         OnDblClick = grdProdutoDblClick
-        Columns = <
-          item
-            Expanded = False
-            FieldName = 'ID_RECEITA'
-            Title.Caption = 'Cod. Receita'
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'ID_PEDIDO'
-            Title.Caption = 'Cod Pedido'
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'ID_TECNICO_AGRICOLA'
-            Title.Caption = 'Cod. Tecnico'
-            Visible = True
-          end>
       end
     end
     object edtCodTecnico: TEdit

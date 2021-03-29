@@ -8,7 +8,7 @@ uses
   Vcl.DBGrids, Vcl.Buttons, Vcl.ExtCtrls;
 
 type
-  TForm1 = class(TForm)
+  TfrmPesqTecnico = class(TForm)
     pnlTop: TPanel;
     Label1: TLabel;
     pnlMid: TPanel;
@@ -21,9 +21,11 @@ type
     btnCancelar: TBitBtn;
     rbIdTecnico: TRadioButton;
     rbNomeTecnico: TRadioButton;
-    RadioButton1: TRadioButton;
+    rbCPF: TRadioButton;
     rbNumRegistro: TRadioButton;
     procedure btnPesquisarClick(Sender: TObject);
+    procedure btnConfirmarClick(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -31,15 +33,30 @@ type
   end;
 
 var
-  Form1: TForm1;
+  frmPesqTecnico: TfrmPesqTecnico;
 
 implementation
 
+uses uDmPrincipal, uReceita;
+
 {$R *.dfm}
 
-procedure TForm1.btnPesquisarClick(Sender: TObject);
+procedure TfrmPesqTecnico.btnCancelarClick(Sender: TObject);
 begin
-dmPrincipal.qryTenicosAgricola.SQL.Text := '';
+  frmPesqTecnico.Close;
+end;
+
+procedure TfrmPesqTecnico.btnConfirmarClick(Sender: TObject);
+begin
+  frmReceita.edtCodTecnico.Text  := dmPrincipal.qryTenicosAgricola.FieldByName('ID_TECNICO_AGRICOLA').AsString;
+  frmReceita.edtNomeTecnico.Text := dmPrincipal.qryTenicosAgricola.FieldByName('NOME').AsString;
+  frmPesqTecnico.CloseModal;
+end;
+
+procedure TfrmPesqTecnico.btnPesquisarClick(Sender: TObject);
+begin
+ try
+    dmPrincipal.qryTenicosAgricola.SQL.Text := '';
     dmPrincipal.qryTenicosAgricola.SQL.Text := 'SELECT * FROM TECNICO_AGRICOLA ';
 
     if edtBuscar.Text <> '' then
@@ -60,8 +77,10 @@ dmPrincipal.qryTenicosAgricola.SQL.Text := '';
   except
    on e:exception do
    begin
-     ShowMessage('Erro ao pesquisar produto. - Erro: ' + e.Message);
+     ShowMessage('Erro ao pesquisar técnico. - Erro: ' + e.Message);
    end;
+
+  end;
 end;
 
 end.

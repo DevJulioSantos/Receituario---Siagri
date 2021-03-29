@@ -258,6 +258,31 @@ object frmTecnicoAgricola: TfrmTecnicoAgricola
         TitleFont.Name = 'Tahoma'
         TitleFont.Style = []
         OnDblClick = grdTecnicosDblClick
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'ID_TECNICO_AGRICOLA'
+            Title.Caption = 'Cod. T'#233'cnico'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'NOME'
+            Title.Caption = 'Nome'
+            Width = 250
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'CPF'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'NUMERO_REGISTRO'
+            Title.Caption = 'Num. Registro'
+            Visible = True
+          end>
       end
     end
     object pnlCadastro: TPanel
